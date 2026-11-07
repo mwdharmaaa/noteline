@@ -91,7 +91,7 @@ const CanvasWheelController = () => {
         const currentDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
         const ratio = currentDist / touchPinch.dist;
 
-        const TOUCH_PINCH_EXPONENT = 3.5;
+        const TOUCH_PINCH_EXPONENT = 2.0;
         const factor = Math.pow(ratio, TOUCH_PINCH_EXPONENT);
 
         const baseVp = touchPinch.vp;
