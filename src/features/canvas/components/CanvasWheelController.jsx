@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useReactFlow } from "@xyflow/react";
 import { useCanvasSettingsStore } from "@/features/settings/store/canvasSettingsStore";
-import { persistViewport } from "@/features/canvas/store/canvasPersistence";
 
 const CanvasWheelController = () => {
   const { getViewport, setViewport } = useReactFlow();
@@ -56,7 +55,6 @@ const CanvasWheelController = () => {
 
         const nextVp = { x: newX, y: newY, zoom: nextZoom };
         setViewport(nextVp);
-        persistViewport(nextVp);
         return;
       }
       const effectiveScrollSpeed = scrollSpeed * (invertScroll ? -1 : 1);
@@ -78,7 +76,6 @@ const CanvasWheelController = () => {
         zoom: viewport.zoom
       };
       setViewport(nextVp);
-      persistViewport(nextVp);
     };
 
     const handleTouchStart = (e) => {
@@ -136,7 +133,6 @@ const CanvasWheelController = () => {
 
         const nextVp = { x: newX, y: newY, zoom: nextZoom };
         setViewport(nextVp);
-        persistViewport(nextVp);
       }
     };
 

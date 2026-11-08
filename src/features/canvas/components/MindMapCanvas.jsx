@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
   useReactFlow,
+  useNodesInitialized,
   Controls,
   MiniMap,
   Background,
@@ -11,17 +12,20 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useMindMapStore } from "@/features/canvas/store/mindMapStore";
-import {
-  loadPersistedViewport,
-  persistViewport,
-  persistViewportSync
-} from "@/features/canvas/store/canvasPersistence";
+import { clearPersistedViewport } from "@/features/canvas/store/canvasPersistence";
 import { nodeTypes } from "@/features/nodes/nodeTypes";
 import { edgeTypes } from "@/features/edges/edgeTypes";
 import { useKeyboardNavigation } from "@/features/canvas/hooks/useKeyboardNavigation";
 import { CanvasWheelController } from "./CanvasWheelController";
 import { useThemeStore } from "@/features/theme/store/themeStore";
 import { CanvasZoomWidget } from "./controls/CanvasZoomWidget";
+
+const FIT_VIEW_OPTIONS = {
+  padding: 0.2,
+  maxZoom: 1,
+  duration: 0
+};
+
 const MindMapCanvasInner = () => {
   const {
     nodes,
@@ -32,32 +36,39 @@ const MindMapCanvasInner = () => {
     setSelectedNodeId,
     addCardAtPosition
   } = useMindMapStore();
-  const { screenToFlowPosition, getViewport, setViewport } = useReactFlow();
-  const savedViewport = useMemo(() => loadPersistedViewport(), []);
+  const { screenToFlowPosition, fitView } = useReactFlow();
+  const nodesInitialized = useNodesInitialized();
+  const hasCenteredOnLoadRef = useRef(false);
+  const activeProjectId = useMindMapStore((s) => s.activeProjectId);
+  const lastProjectIdRef = useRef(activeProjectId);
+
   useKeyboardNavigation();
   const currentTheme = useThemeStore((s) => s.currentTheme);
 
+  // Clear any legacy saved viewport so refresh always centers user card(s)
   useEffect(() => {
-    if (savedViewport) {
-      setViewport(savedViewport, { duration: 0 });
-    }
-  }, [savedViewport, setViewport]);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      persistViewportSync(getViewport());
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [getViewport]);
-
-  const handleMoveEnd = useCallback((_, viewport) => {
-    if (viewport) {
-      persistViewport(viewport);
-    }
+    clearPersistedViewport();
   }, []);
+
+  // When web is refreshed / initially loaded, center the card or collection of cards
+  useEffect(() => {
+    if (!hasCenteredOnLoadRef.current && nodesInitialized && nodes.length > 0) {
+      hasCenteredOnLoadRef.current = true;
+      fitView(FIT_VIEW_OPTIONS);
+    }
+  }, [nodesInitialized, nodes.length, fitView]);
+
+  // When switching projects, smoothly center the cards of the target project
+  useEffect(() => {
+    if (lastProjectIdRef.current !== activeProjectId) {
+      lastProjectIdRef.current = activeProjectId;
+      if (nodes.length > 0) {
+        requestAnimationFrame(() => {
+          fitView({ padding: 0.2, maxZoom: 1, duration: 250 });
+        });
+      }
+    }
+  }, [activeProjectId, nodes.length, fitView]);
   const handleSelectionChange = useCallback(
     (params) => {
       if (params.nodes && params.nodes.length > 0) {
@@ -107,9 +118,8 @@ const MindMapCanvasInner = () => {
     zoomOnPinch={false}
     zoomActivationKeyCode={null}
     panOnDrag={[0, 1, 2]}
-    defaultViewport={savedViewport || undefined}
-    fitView={!savedViewport}
-    onMoveEnd={handleMoveEnd}
+    fitView={Boolean(nodes && nodes.length > 0)}
+    fitViewOptions={FIT_VIEW_OPTIONS}
     minZoom={0.15}
     maxZoom={2.5}
     defaultEdgeOptions={{

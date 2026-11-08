@@ -6,6 +6,7 @@ import {
   loadPersistedCanvas
 } from "../../src/features/canvas/store/canvasPersistence.js";
 import { calculateDagreLayout } from "../../src/features/layout/algorithms/dagreTreeLayout.js";
+import { getViewportForBounds } from "@xyflow/system";
 
 const mockStorage = new Map();
 global.window = {
@@ -59,5 +60,34 @@ describe("Canvas Persistence & Empty Layout Contracts", () => {
     const result = calculateDagreLayout([], [], "LR");
     expect(result.nodes.length).toBe(0);
     expect(result.edges.length).toBe(0);
+  });
+
+  test("getViewportForBounds centers a single user card with maxZoom clamped to 1.0", () => {
+    const screenWidth = 1200;
+    const screenHeight = 800;
+    const singleNodeBounds = { x: 500, y: 250, width: 220, height: 110 };
+
+    const vp = getViewportForBounds(singleNodeBounds, screenWidth, screenHeight, 0.15, 1.0, 0.2);
+    expect(vp.zoom).toBe(1.0);
+
+    const screenCenterX = (singleNodeBounds.x + singleNodeBounds.width / 2) * vp.zoom + vp.x;
+    const screenCenterY = (singleNodeBounds.y + singleNodeBounds.height / 2) * vp.zoom + vp.y;
+
+    expect(Math.round(screenCenterX)).toBe(screenWidth / 2);
+    expect(Math.round(screenCenterY)).toBe(screenHeight / 2);
+  });
+
+  test("getViewportForBounds centers a collection of user cards across canvas", () => {
+    const screenWidth = 1200;
+    const screenHeight = 800;
+    // Bounding box of a tree or cluster of cards created by the user
+    const clusterBounds = { x: 150, y: 100, width: 900, height: 500 };
+
+    const vp = getViewportForBounds(clusterBounds, screenWidth, screenHeight, 0.15, 1.0, 0.2);
+    const screenCenterX = (clusterBounds.x + clusterBounds.width / 2) * vp.zoom + vp.x;
+    const screenCenterY = (clusterBounds.y + clusterBounds.height / 2) * vp.zoom + vp.y;
+
+    expect(Math.round(screenCenterX)).toBe(screenWidth / 2);
+    expect(Math.round(screenCenterY)).toBe(screenHeight / 2);
   });
 });
