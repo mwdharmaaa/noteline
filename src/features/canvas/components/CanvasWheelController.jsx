@@ -139,6 +139,14 @@ const CanvasWheelController = () => {
       }
     };
 
+    const preventWindowOverscroll = (e) => {
+      if (e.target?.closest("input, textarea, select, [data-no-wheel], .overflow-y-auto, .overflow-auto")) {
+        return;
+      }
+      e.preventDefault();
+    };
+
+    window.addEventListener("wheel", preventWindowOverscroll, { passive: false });
     container.addEventListener("wheel", handleWheel, { passive: false });
     container.addEventListener("touchstart", handleTouchStart, { passive: true });
     container.addEventListener("touchmove", handleTouchMove, { passive: false });
@@ -146,6 +154,7 @@ const CanvasWheelController = () => {
     container.addEventListener("touchcancel", handleTouchEnd, { passive: true });
 
     return () => {
+      window.removeEventListener("wheel", preventWindowOverscroll);
       container.removeEventListener("wheel", handleWheel);
       container.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("touchmove", handleTouchMove);
