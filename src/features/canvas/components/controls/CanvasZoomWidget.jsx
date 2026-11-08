@@ -11,7 +11,7 @@ const CanvasZoomWidget = () => {
     const vp = getViewport();
     setViewport({ x: vp.x, y: vp.y, zoom: 1 }, { duration: 200 });
   };
-  return <aside className="absolute bottom-6 right-6 z-20 flex items-center gap-1 bg-zinc-900/95 backdrop-blur-md border border-zinc-700/80 rounded-xl p-1 shadow-2xl select-none">
+  return <aside className="absolute bottom-6 right-6 z-20 flex items-center gap-1 bg-[#101013]/95 backdrop-blur-md border border-zinc-700/80 rounded-none p-1 shadow-2xl select-none">
       <ZoomOutButton onClick={() => zoomOut({ duration: 150 })} />
       <ResetZoomButton zoomPercent={zoomPercent} onClick={handleResetZoom} />
       <ZoomInButton onClick={() => zoomIn({ duration: 150 })} />

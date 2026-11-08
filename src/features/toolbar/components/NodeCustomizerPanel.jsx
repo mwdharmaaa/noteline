@@ -31,25 +31,25 @@ const NodeCustomizerPanel = () => {
       tags: currentTags.filter((t) => t !== targetTag)
     });
   };
-  return <aside className="absolute bottom-6 left-6 z-20 w-80 bg-zinc-900/95 backdrop-blur-md border border-zinc-700/80 rounded-2xl p-4 shadow-2xl space-y-4 select-none">
+  return <aside className="absolute bottom-6 left-6 z-20 w-80 bg-[#101013]/95 backdrop-blur-md border border-zinc-700/80 rounded-none p-4 shadow-2xl space-y-4 select-none">
       <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
         <div className="flex items-center gap-2">
           <Layers className="w-4 h-4 text-zinc-200" />
-          <span className="text-xs font-semibold text-zinc-100 uppercase tracking-wider">
+          <span className="text-xs font-bold text-zinc-100 uppercase tracking-widest font-mono">
             {isRoot ? "Root Card" : "Card Inspector"}
           </span>
         </div>
         {!isRoot && <div className="flex items-center gap-1">
             <button
     onClick={() => duplicateSubtree(selectedNode.id)}
-    className="p-1 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
+    className="p-1 rounded-none text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
     title="Duplicate card & branch (Ctrl+D)"
   >
               <Copy className="w-3.5 h-3.5" />
             </button>
             <button
     onClick={() => deleteSubtree(selectedNode.id)}
-    className="p-1 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
+    className="p-1 rounded-none text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
     title="Delete card & branch"
   >
             <Trash2 className="w-3.5 h-3.5" />
@@ -88,14 +88,14 @@ const NodeCustomizerPanel = () => {
       <div className="pt-2 border-t border-zinc-800 flex items-center gap-2">
         <button
     onClick={() => addChildNode(selectedNode.id)}
-    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-medium rounded-lg border border-zinc-700 hover:border-zinc-500 transition-all"
+    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 hover:text-white text-xs font-medium rounded-none border border-zinc-700/80 hover:border-zinc-500 transition-all"
   >
           <Plus className="w-3.5 h-3.5 text-zinc-300" />
           <span>Add Child Card</span>
         </button>
         {!isRoot && <button
     onClick={() => addSiblingNode(selectedNode.id)}
-    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-medium rounded-lg border border-zinc-700 hover:border-zinc-500 transition-all"
+    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 hover:text-white text-xs font-medium rounded-none border border-zinc-700/80 hover:border-zinc-500 transition-all"
   >
             <GitBranch className="w-3.5 h-3.5 text-zinc-300" />
             <span>Add Sibling Card</span>

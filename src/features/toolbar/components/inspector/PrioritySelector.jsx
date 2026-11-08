@@ -8,7 +8,7 @@ const PrioritySelector = ({
         {["none", "low", "medium", "high", "urgent"].map((p) => <button
     key={p}
     onClick={() => onSelectPriority(p)}
-    className={`px-2 py-0.5 text-[10px] uppercase font-mono rounded transition-colors ${currentPriority === p ? "bg-zinc-200 text-zinc-950 font-bold shadow-sm" : "bg-zinc-800 text-zinc-400 hover:text-zinc-200 border border-zinc-700/60"}`}
+    className={`px-2 py-0.5 text-[10px] uppercase font-mono rounded-none transition-colors ${currentPriority === p ? "bg-zinc-200 text-zinc-950 font-bold shadow-sm" : "bg-zinc-900 text-zinc-400 hover:text-zinc-200 border border-zinc-800"}`}
   >
             {p}
           </button>)}

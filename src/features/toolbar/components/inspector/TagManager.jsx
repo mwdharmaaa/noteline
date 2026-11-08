@@ -22,7 +22,7 @@ const TagManager = ({
       {tags.length > 0 && <div className="flex items-center gap-1 flex-wrap">
           {tags.map((tag) => <span
     key={tag}
-    className="flex items-center gap-1 text-[10px] font-mono bg-zinc-800 text-zinc-300 px-1.5 py-0.5 rounded border border-zinc-700"
+    className="flex items-center gap-1 text-[10px] font-mono bg-zinc-900 text-zinc-300 px-1.5 py-0.5 rounded-none border border-zinc-800"
   >
               <span>#{tag}</span>
               <button
@@ -40,11 +40,11 @@ const TagManager = ({
     onChange={(e) => setTagInput(e.target.value)}
     onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), submitTag())}
     placeholder="Add tag..."
-    className="flex-1 bg-zinc-800 text-zinc-100 text-xs px-2 py-1 rounded border border-zinc-700 outline-none focus:border-zinc-400 placeholder:text-zinc-500"
+    className="flex-1 bg-zinc-900 text-zinc-100 text-xs px-2 py-1 rounded-none border border-zinc-800 outline-none focus:border-zinc-400 placeholder:text-zinc-500"
   />
         <button
     onClick={submitTag}
-    className="p-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded border border-zinc-700"
+    className="p-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-none border border-zinc-700"
     title="Add tag"
   >
           <Plus className="w-3 h-3" />

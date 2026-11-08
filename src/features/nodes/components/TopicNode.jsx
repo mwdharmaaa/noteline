@@ -22,8 +22,6 @@ const TopicNode = ({ id, data, selected }) => {
   };
   const shapeClass = data.shape === "pill"
     ? "rounded-full px-4 py-2"
-    : data.shape === "rounded"
-    ? "rounded-[3px] px-4 py-2.5"
     : "rounded-none px-4 py-2.5";
   return <div
     className={`relative group bg-[#111114] border transition-all duration-150 shadow-lg ${shapeClass} ${selected ? "border-zinc-200 ring-1 ring-zinc-300/40 shadow-zinc-950/90" : "border-zinc-700/80 hover:border-zinc-500"}`}

@@ -100,7 +100,7 @@ const MindMapCanvasInner = () => {
 
         <Controls
     showInteractive={false}
-    className="!bg-zinc-900/95 !border !border-zinc-700 !rounded-xl !overflow-hidden !shadow-2xl [&>button]:!bg-zinc-900 [&>button]:!border-zinc-700 [&>button]:!text-zinc-200 hover:[&>button]:!bg-zinc-800"
+    className="!bg-zinc-900/95 !border !border-zinc-700 !rounded-none !overflow-hidden !shadow-2xl [&>button]:!bg-zinc-900 [&>button]:!border-zinc-700 [&>button]:!text-zinc-200 hover:[&>button]:!bg-zinc-800"
   />
 
         <CanvasZoomWidget />
@@ -112,7 +112,7 @@ const MindMapCanvasInner = () => {
       return dataColor || "#e4e4e7";
     }}
     maskColor="rgba(9, 9, 11, 0.88)"
-    className="!bg-zinc-900 !border !border-zinc-700 !rounded-xl !overflow-hidden !shadow-2xl"
+    className="!bg-zinc-900 !border !border-zinc-700 !rounded-none !overflow-hidden !shadow-2xl"
   />
       </ReactFlow>
     </div>;
