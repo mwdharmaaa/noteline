@@ -21,4 +21,15 @@ describe("Edge Helpers", () => {
     expect(optimized[0].sourceHandle).toBe("source-l");
     expect(optimized[0].targetHandle).toBe("target-r");
   });
+  test("preserves explicit user connection handles without snapping to closest side", () => {
+    const nodes = [
+      { id: "src", position: { x: 100, y: 100 }, data: {} },
+      { id: "tgt", position: { x: 500, y: 100 }, data: {} }
+    ];
+    // User explicitly connected top to top handle
+    const edges = [{ id: "e1", source: "src", target: "tgt", sourceHandle: "source-t", targetHandle: "target-t" }];
+    const result = optimizeEdgeHandles(nodes, edges);
+    expect(result[0].sourceHandle).toBe("source-t");
+    expect(result[0].targetHandle).toBe("target-t");
+  });
 });

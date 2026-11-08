@@ -48,9 +48,23 @@ const useMindMapStore = create((set, get) => ({
     set({ edges: nextEdges, lastSavedAt: Date.now() });
   },
   onConnect: (connection) => {
-    const nextEdges = optimizeEdgeHandles(get().nodes, addEdge(connection, get().edges));
+    const newEdge = {
+      ...connection,
+      id: `edge-${connection.source}-${connection.sourceHandle || "default"}-${connection.target}-${connection.targetHandle || "default"}-${Date.now()}`,
+      type: get().connectorType || "smoothstep",
+      style: { stroke: "#71717a", strokeWidth: 1.5 }
+    };
+    const nextEdges = addEdge(newEdge, get().edges);
     persistCanvas(get().nodes, nextEdges);
-    set({ edges: nextEdges, lastSavedAt: Date.now() });
+    set({
+      edges: nextEdges,
+      history: [
+        ...get().history.slice(0, get().historyIndex + 1),
+        { nodes: get().nodes, edges: nextEdges }
+      ],
+      historyIndex: get().historyIndex + 1,
+      lastSavedAt: Date.now()
+    });
   },
   setSelectedNodeId: (id) => set({ selectedNodeId: id }),
   updateNodeData: (id, partialData) => {

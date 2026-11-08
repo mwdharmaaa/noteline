@@ -2,6 +2,9 @@ function optimizeEdgeHandles(nodes, edges) {
   const nodeMap = /* @__PURE__ */ new Map();
   nodes.forEach((n) => nodeMap.set(n.id, n.position));
   return edges.map((edge) => {
+    if (edge.sourceHandle && edge.targetHandle) {
+      return edge;
+    }
     const sPos = nodeMap.get(edge.source);
     const tPos = nodeMap.get(edge.target);
     if (!sPos || !tPos) return edge;
