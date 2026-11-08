@@ -1,4 +1,4 @@
-import { DEFAULT_CANVAS_SETTINGS, SETTINGS_STORAGE_KEY } from "../types/settings.types";
+import { DEFAULT_CANVAS_SETTINGS, SETTINGS_STORAGE_KEY } from "../types/settings.types.js";
 
 export const loadCanvasSettings = () => {
   if (typeof window === "undefined" || !window.localStorage) {
@@ -6,7 +6,7 @@ export const loadCanvasSettings = () => {
   }
 
   try {
-    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+    const raw = window.localStorage.getItem(SETTINGS_STORAGE_KEY);
     if (!raw) return { ...DEFAULT_CANVAS_SETTINGS };
     const parsed = JSON.parse(raw);
     return {
@@ -26,7 +26,7 @@ export const loadCanvasSettings = () => {
 export const saveCanvasSettings = (settings) => {
   if (typeof window === "undefined" || !window.localStorage) return;
   try {
-    localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+    window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
   } catch {
     // Graceful degradation when quota exceeded
   }
@@ -35,7 +35,7 @@ export const saveCanvasSettings = (settings) => {
 export const clearCanvasSettings = () => {
   if (typeof window === "undefined" || !window.localStorage) return;
   try {
-    localStorage.removeItem(SETTINGS_STORAGE_KEY);
+    window.localStorage.removeItem(SETTINGS_STORAGE_KEY);
   } catch {
     // Graceful fallback
   }

@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { DEFAULT_CANVAS_SETTINGS } from "../types/settings.types";
-import { loadCanvasSettings, saveCanvasSettings, clearCanvasSettings } from "../services/settingsStorage";
+import { DEFAULT_CANVAS_SETTINGS } from "../types/settings.types.js";
+import { loadCanvasSettings, saveCanvasSettings, clearCanvasSettings } from "../services/settingsStorage.js";
 
 export const useCanvasSettingsStore = create((set, get) => ({
   settings: loadCanvasSettings(),

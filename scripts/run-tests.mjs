@@ -11,6 +11,7 @@ const tests = [
   'tests/unit/searchFilter.test.js',
   'tests/unit/themeContrast.test.js',
   'tests/unit/projectStorage.test.js',
+  'tests/unit/canvasSettings.test.js',
 ];
 
 try {
