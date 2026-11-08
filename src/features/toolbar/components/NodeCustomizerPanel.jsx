@@ -39,22 +39,22 @@ const NodeCustomizerPanel = () => {
             {isRoot ? "Root Card" : "Card Inspector"}
           </span>
         </div>
-        {!isRoot && <div className="flex items-center gap-1">
-            <button
-    onClick={() => duplicateSubtree(selectedNode.id)}
-    className="p-1 rounded-none text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
-    title="Duplicate card & branch (Ctrl+D)"
-  >
-              <Copy className="w-3.5 h-3.5" />
-            </button>
-            <button
-    onClick={() => deleteSubtree(selectedNode.id)}
-    className="p-1 rounded-none text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
-    title="Delete card & branch"
-  >
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => duplicateSubtree(selectedNode.id)}
+            className="p-1 rounded-none text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
+            title="Duplicate card & branch (Ctrl+D)"
+          >
+            <Copy className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={() => deleteSubtree(selectedNode.id)}
+            className="p-1 rounded-none text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
+            title="Delete card & branch"
+          >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
-          </div>}
+        </div>
       </div>
 
       <ColorPalettePicker

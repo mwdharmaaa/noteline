@@ -1,6 +1,7 @@
 import dagre from "dagre";
 import { Position } from "@xyflow/react";
 function calculateDagreLayout(nodes, edges, direction = "LR") {
+  if (nodes.length === 0) return { nodes, edges };
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
   const isHorizontal = direction === "LR";

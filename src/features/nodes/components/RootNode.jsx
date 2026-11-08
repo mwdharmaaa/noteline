@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Position } from "@xyflow/react";
 import { NodeHandle } from "./NodeHandle";
+import { NodeEditToolbar } from "./NodeEditToolbar";
 import { useMindMapStore } from "@/features/canvas/store/mindMapStore";
 import { Network } from "lucide-react";
 const RootNode = ({ id, data, selected }) => {
@@ -21,6 +22,13 @@ const RootNode = ({ id, data, selected }) => {
       borderLeftWidth: "3px"
     }}
   >
+      <NodeEditToolbar
+        nodeId={id}
+        isVisible={!!selected}
+        currentKind={data.kind || "root"}
+        currentShape={data.shape || "rounded"}
+      />
+
       <NodeHandle type="target" position={Position.Left} id="target-l" />
       <NodeHandle type="source" position={Position.Left} id="source-l" />
       <NodeHandle type="target" position={Position.Right} id="target-r" />

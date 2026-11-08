@@ -10,7 +10,7 @@ import {
 } from "./treeHelpers";
 import { runMindMapLayout } from "@/features/layout/layoutEngine";
 import { optimizeEdgeHandles } from "./edgeHelpers";
-import { loadPersistedCanvas, persistCanvas } from "./canvasPersistence";
+import { loadPersistedCanvas, persistCanvas, clearPersistedViewport } from "./canvasPersistence";
 import { cloneSubtree } from "@/features/clipboard/utils/cloneSubtree";
 import {
   getProjectList,
@@ -25,7 +25,7 @@ const defaultEdges = initialLoaded ? initialLoaded.edges : optimizeEdgeHandles(i
 const useMindMapStore = create((set, get) => ({
   nodes: defaultNodes,
   edges: defaultEdges,
-  selectedNodeId: null,
+  selectedNodeId: initialLoaded?.selectedNodeId || null,
   layoutDirection: "LR",
   connectorType: "smoothstep",
   history: [{ nodes: defaultNodes, edges: defaultEdges }],
@@ -66,7 +66,10 @@ const useMindMapStore = create((set, get) => ({
       lastSavedAt: Date.now()
     });
   },
-  setSelectedNodeId: (id) => set({ selectedNodeId: id }),
+  setSelectedNodeId: (id) => {
+    persistCanvas(get().nodes, get().edges, id);
+    set({ selectedNodeId: id });
+  },
   updateNodeData: (id, partialData) => {
     const nextNodes = get().nodes.map((node) => {
       if (node.id !== id) return node;
@@ -183,7 +186,7 @@ const useMindMapStore = create((set, get) => ({
   deleteSubtree: (nodeId) => {
     const state = get();
     const targetNode = state.nodes.find((n) => n.id === nodeId);
-    if (!targetNode || targetNode.data.kind === "root") return;
+    if (!targetNode) return;
     const toDelete = getAllDescendantIds(nodeId, state.edges);
     toDelete.add(nodeId);
     const nextNodes = state.nodes.filter((n) => !toDelete.has(n.id));
@@ -258,6 +261,7 @@ const useMindMapStore = create((set, get) => ({
     }
   },
   resetCanvas: () => {
+    clearPersistedViewport();
     const nextEdges = optimizeEdgeHandles(initialNodes, initialEdges);
     persistCanvas(initialNodes, nextEdges);
     set({
@@ -270,6 +274,7 @@ const useMindMapStore = create((set, get) => ({
     });
   },
   createBlankCanvas: () => {
+    clearPersistedViewport();
     const blankRoot = {
       id: "root-1",
       type: "root",
@@ -301,7 +306,7 @@ const useMindMapStore = create((set, get) => ({
     const targetId = nodeId || state.selectedNodeId;
     if (!targetId) return;
     const targetNode = state.nodes.find((n) => n.id === targetId);
-    if (!targetNode || targetNode.data.kind === "root") return;
+    if (!targetNode) return;
     const cloned = cloneSubtree(targetId, state.nodes, state.edges, { x: 40, y: 80 });
     let nextEdges = [...state.edges, ...cloned.edges];
     const parentEdge = state.edges.find((e) => e.target === targetId);
