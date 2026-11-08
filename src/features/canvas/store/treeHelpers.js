@@ -61,7 +61,7 @@ function createNewChildNode(parentId, parent, kind = "topic", customPos) {
       kind,
       color: parentColor,
       parentId,
-      shape: "rounded",
+      shape: "rectangle",
       priority: "none",
       checklist: [],
       markdown: ""

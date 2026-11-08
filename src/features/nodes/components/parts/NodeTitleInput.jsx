@@ -16,14 +16,14 @@ const NodeTitleInput = ({
       onBlur={onBlur}
       onKeyDown={(e) => e.key === "Enter" && onBlur()}
       autoFocus
-      className="bg-zinc-800 text-zinc-100 text-xs px-1.5 py-0.5 rounded outline-none border border-zinc-400 min-w-[120px] placeholder:text-zinc-500 nodrag"
+      className="bg-zinc-900 text-zinc-100 text-xs px-2 py-0.5 rounded-none outline-none border border-zinc-400 min-w-[130px] font-medium placeholder:text-zinc-500 nodrag"
     />;
   }
   return <span
     onClick={onClick || onDoubleClick}
     onDoubleClick={onDoubleClick}
     title="Click to edit text"
-    className={`text-xs select-text cursor-text ${label ? "font-medium text-zinc-200" : "italic text-zinc-500"}`}
+    className={`text-xs select-text cursor-text tracking-tight ${label ? "font-semibold text-zinc-100" : "italic text-zinc-500"}`}
   >
       {label || placeholder}
     </span>;

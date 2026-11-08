@@ -10,7 +10,7 @@ const NodeHandle = ({
     position={position}
     id={id}
     isConnectable={isConnectable}
-    className="!w-2.5 !h-2.5 !bg-zinc-300 !border-2 !border-zinc-900 hover:!bg-white hover:!scale-125 transition-all duration-150 !rounded-full shadow-sm"
+    className="!w-2 !h-2 !bg-zinc-300 !border !border-zinc-950 hover:!bg-white hover:!scale-125 transition-all duration-150 !rounded-none shadow-sm"
   />;
 };
 export {

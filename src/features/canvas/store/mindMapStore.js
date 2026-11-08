@@ -148,7 +148,7 @@ const useMindMapStore = create((set, get) => ({
         kind,
         color: cardColor,
         parentId: selectedParent?.id,
-        shape: "rounded",
+        shape: "rectangle",
         priority: "none",
         checklist: [],
         markdown: ""

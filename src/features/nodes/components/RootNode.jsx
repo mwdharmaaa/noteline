@@ -15,10 +15,10 @@ const RootNode = ({ id, data, selected }) => {
     if (e.key === "Enter") handleBlur();
   };
   return <div
-    className={`relative group px-5 py-3.5 rounded-xl bg-zinc-900 border transition-all duration-200 shadow-xl ${selected ? "border-zinc-200 ring-2 ring-zinc-400/25 shadow-zinc-950/80" : "border-zinc-700 hover:border-zinc-500"}`}
+    className={`relative group px-6 py-4 rounded-none bg-[#101013] border transition-all duration-150 shadow-2xl ${selected ? "border-zinc-200 ring-1 ring-zinc-300/40 shadow-zinc-950/90" : "border-zinc-700/80 hover:border-zinc-500"}`}
     style={{
       borderLeftColor: data.color || "#f4f4f5",
-      borderLeftWidth: "4px"
+      borderLeftWidth: "3px"
     }}
   >
       <NodeHandle type="target" position={Position.Left} id="target-l" />
@@ -30,8 +30,8 @@ const RootNode = ({ id, data, selected }) => {
       <NodeHandle type="target" position={Position.Bottom} id="target-b" />
       <NodeHandle type="source" position={Position.Bottom} id="source-b" />
 
-      <div className="flex items-center gap-2.5">
-        <div className="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-200">
+      <div className="flex items-center gap-3">
+        <div className="w-7 h-7 rounded-none bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-200">
           <Network className="w-4 h-4" />
         </div>
 
@@ -42,7 +42,7 @@ const RootNode = ({ id, data, selected }) => {
     onBlur={handleBlur}
     onKeyDown={handleKeyDown}
     autoFocus
-    className="bg-zinc-800 text-zinc-100 font-semibold px-2 py-0.5 rounded outline-none border border-zinc-400 text-sm w-44 nodrag"
+    className="bg-zinc-900 text-zinc-100 font-bold px-2 py-1 rounded-none outline-none border border-zinc-400 text-sm tracking-tight w-48 nodrag"
   /> : <span
     onClick={(e) => {
       e.stopPropagation();
@@ -53,7 +53,7 @@ const RootNode = ({ id, data, selected }) => {
       setIsEditing(true);
     }}
     title="Click to edit central idea"
-    className="text-zinc-100 font-semibold text-sm tracking-tight cursor-text select-text"
+    className="text-zinc-100 font-bold text-sm tracking-wide uppercase cursor-text select-text"
   >
             {data.label}
           </span>}

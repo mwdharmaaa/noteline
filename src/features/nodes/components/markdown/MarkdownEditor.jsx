@@ -5,7 +5,7 @@ const MarkdownEditor = ({ value, onChange }) => {
     placeholder="Write documentation or note here..."
     rows={4}
     autoFocus
-    className="w-full bg-zinc-800/90 text-zinc-200 text-xs p-2 rounded outline-none border border-zinc-500 font-mono resize-none placeholder:text-zinc-500 nodrag"
+    className="w-full bg-zinc-900 text-zinc-200 text-xs p-2 rounded-none outline-none border border-zinc-700/80 focus:border-zinc-400 font-mono resize-none placeholder:text-zinc-500 nodrag"
   />;
 };
 export {

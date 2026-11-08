@@ -20,9 +20,13 @@ const TopicNode = ({ id, data, selected }) => {
     setIsEditing(false);
     updateNodeData(id, { label: label.trim() });
   };
-  const shapeClass = data.shape === "pill" ? "rounded-full px-4 py-2" : data.shape === "rectangle" ? "rounded-none px-3.5 py-2.5" : "rounded-lg px-3.5 py-2.5";
+  const shapeClass = data.shape === "pill"
+    ? "rounded-full px-4 py-2"
+    : data.shape === "rounded"
+    ? "rounded-[3px] px-4 py-2.5"
+    : "rounded-none px-4 py-2.5";
   return <div
-    className={`relative group bg-zinc-900 border transition-all duration-150 shadow-md ${shapeClass} ${selected ? "border-zinc-200 ring-2 ring-zinc-400/25 shadow-zinc-950/70" : "border-zinc-700 hover:border-zinc-500"}`}
+    className={`relative group bg-[#111114] border transition-all duration-150 shadow-lg ${shapeClass} ${selected ? "border-zinc-200 ring-1 ring-zinc-300/40 shadow-zinc-950/90" : "border-zinc-700/80 hover:border-zinc-500"}`}
     style={{
       borderLeftColor: data.color || "#d4d4d8",
       borderLeftWidth: "3px"

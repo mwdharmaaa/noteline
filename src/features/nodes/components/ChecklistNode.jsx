@@ -43,7 +43,7 @@ const ChecklistNode = ({ id, data, selected }) => {
     updateNodeData(id, { label: title.trim() || "Checklist" });
   };
   return <div
-    className={`relative group w-64 bg-zinc-900 border rounded-xl p-3 shadow-lg transition-all ${selected ? "border-zinc-200 ring-2 ring-zinc-400/25 shadow-zinc-950/70" : "border-zinc-700 hover:border-zinc-500"}`}
+    className={`relative group w-72 bg-[#111114] border rounded-none p-4 shadow-xl transition-all duration-150 ${selected ? "border-zinc-200 ring-1 ring-zinc-300/40 shadow-zinc-950/90" : "border-zinc-700/80 hover:border-zinc-500"}`}
     style={{ borderLeftColor: data.color || "#d4d4d8", borderLeftWidth: "3px" }}
   >
       <NodeEditToolbar

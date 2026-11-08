@@ -23,7 +23,7 @@ const initialNodes = [
       label: "Act 1: The Inciting Incident",
       kind: "topic",
       color: "#e4e4e7",
-      shape: "rounded",
+      shape: "rectangle",
       priority: "high",
       parentId: "root-1"
     }
@@ -38,6 +38,7 @@ const initialNodes = [
       label: "Act 1 Deliverables",
       kind: "checklist",
       color: "#d4d4d8",
+      shape: "rectangle",
       checklist: [
         { id: "1", text: "Introduce world rules", completed: true },
         { id: "2", text: "Catalyst dilemma", completed: true },
@@ -56,7 +57,7 @@ const initialNodes = [
       label: "Act 2: Rising Stakes",
       kind: "topic",
       color: "#e4e4e7",
-      shape: "pill",
+      shape: "rectangle",
       priority: "medium",
       parentId: "root-1"
     }

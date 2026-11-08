@@ -19,11 +19,11 @@ const MarkdownHeader = ({
     onBlur={onTitleBlur}
     onKeyDown={(e) => e.key === "Enter" && onTitleBlur()}
     autoFocus
-    className="bg-zinc-800 text-zinc-100 text-xs px-1 py-0.5 rounded outline-none border border-zinc-400 w-full nodrag"
+    className="bg-zinc-900 text-zinc-100 text-xs px-1.5 py-0.5 rounded-none outline-none border border-zinc-500 w-full nodrag"
   /> : <span
     onClick={onTitleClick || onTitleDoubleClick}
     onDoubleClick={onTitleDoubleClick}
-    className="truncate cursor-text"
+    className="truncate cursor-text tracking-tight uppercase text-zinc-100 font-semibold text-[11px]"
     title="Click to edit title"
   >
             {label || "Doc Note"}
@@ -31,7 +31,7 @@ const MarkdownHeader = ({
       </div>
       <button
     onClick={onToggleContentEdit}
-    className="text-zinc-500 hover:text-zinc-200 transition-colors p-1 rounded hover:bg-zinc-800"
+    className="text-zinc-500 hover:text-zinc-200 transition-colors p-1 rounded-none hover:bg-zinc-800"
     title={isEditing ? "Save note" : "Edit note"}
   >
         {isEditing ? <Check className="w-3.5 h-3.5 text-zinc-200" /> : <Edit2 className="w-3 h-3 text-zinc-400" />}

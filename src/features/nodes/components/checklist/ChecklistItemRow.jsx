@@ -10,7 +10,7 @@ const ChecklistItemRow = ({
     type="checkbox"
     checked={item.completed}
     onChange={() => onToggle(item.id)}
-    className="rounded border-zinc-700 bg-zinc-800 text-zinc-200 focus:ring-0 w-3.5 h-3.5 accent-zinc-200 cursor-pointer"
+    className="rounded-none border-zinc-700 bg-zinc-900 text-zinc-200 focus:ring-0 w-3.5 h-3.5 accent-zinc-200 cursor-pointer"
   />
         <span
     className={`select-text ${item.completed ? "line-through text-zinc-500" : "text-zinc-300"}`}
