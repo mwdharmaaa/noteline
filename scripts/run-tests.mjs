@@ -12,6 +12,7 @@ const tests = [
   'tests/unit/themeContrast.test.js',
   'tests/unit/projectStorage.test.js',
   'tests/unit/canvasSettings.test.js',
+  'tests/unit/canvasPersistence.test.js',
 ];
 
 try {

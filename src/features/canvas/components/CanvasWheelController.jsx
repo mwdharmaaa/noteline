@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useReactFlow } from "@xyflow/react";
 import { useCanvasSettingsStore } from "@/features/settings/store/canvasSettingsStore";
+import { persistViewport } from "@/features/canvas/store/canvasPersistence";
 
 const CanvasWheelController = () => {
   const { getViewport, setViewport } = useReactFlow();
@@ -53,7 +54,9 @@ const CanvasWheelController = () => {
         const newX = cursorX - (cursorX - viewport.x) * (nextZoom / viewport.zoom);
         const newY = cursorY - (cursorY - viewport.y) * (nextZoom / viewport.zoom);
 
-        setViewport({ x: newX, y: newY, zoom: nextZoom });
+        const nextVp = { x: newX, y: newY, zoom: nextZoom };
+        setViewport(nextVp);
+        persistViewport(nextVp);
         return;
       }
       const effectiveScrollSpeed = scrollSpeed * (invertScroll ? -1 : 1);
@@ -69,11 +72,13 @@ const CanvasWheelController = () => {
           dy = -e.deltaY * effectiveScrollSpeed;
         }
       }
-      setViewport({
+      const nextVp = {
         x: viewport.x + dx,
         y: viewport.y + dy,
         zoom: viewport.zoom
-      });
+      };
+      setViewport(nextVp);
+      persistViewport(nextVp);
     };
 
     const handleTouchStart = (e) => {
@@ -129,7 +134,9 @@ const CanvasWheelController = () => {
         const newX = cursorX - (cursorX - baseVp.x) * (nextZoom / baseVp.zoom) + panX;
         const newY = cursorY - (cursorY - baseVp.y) * (nextZoom / baseVp.zoom) + panY;
 
-        setViewport({ x: newX, y: newY, zoom: nextZoom });
+        const nextVp = { x: newX, y: newY, zoom: nextZoom };
+        setViewport(nextVp);
+        persistViewport(nextVp);
       }
     };
 

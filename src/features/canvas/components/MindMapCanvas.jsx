@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -11,6 +11,11 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useMindMapStore } from "@/features/canvas/store/mindMapStore";
+import {
+  loadPersistedViewport,
+  persistViewport,
+  persistViewportSync
+} from "@/features/canvas/store/canvasPersistence";
 import { nodeTypes } from "@/features/nodes/nodeTypes";
 import { edgeTypes } from "@/features/edges/edgeTypes";
 import { useKeyboardNavigation } from "@/features/canvas/hooks/useKeyboardNavigation";
@@ -27,9 +32,32 @@ const MindMapCanvasInner = () => {
     setSelectedNodeId,
     addCardAtPosition
   } = useMindMapStore();
-  const { screenToFlowPosition } = useReactFlow();
+  const { screenToFlowPosition, getViewport, setViewport } = useReactFlow();
+  const savedViewport = useMemo(() => loadPersistedViewport(), []);
   useKeyboardNavigation();
   const currentTheme = useThemeStore((s) => s.currentTheme);
+
+  useEffect(() => {
+    if (savedViewport) {
+      setViewport(savedViewport, { duration: 0 });
+    }
+  }, [savedViewport, setViewport]);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      persistViewportSync(getViewport());
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [getViewport]);
+
+  const handleMoveEnd = useCallback((_, viewport) => {
+    if (viewport) {
+      persistViewport(viewport);
+    }
+  }, []);
   const handleSelectionChange = useCallback(
     (params) => {
       if (params.nodes && params.nodes.length > 0) {
@@ -79,7 +107,9 @@ const MindMapCanvasInner = () => {
     zoomOnPinch={false}
     zoomActivationKeyCode={null}
     panOnDrag={[0, 1, 2]}
-    fitView
+    defaultViewport={savedViewport || undefined}
+    fitView={!savedViewport}
+    onMoveEnd={handleMoveEnd}
     minZoom={0.15}
     maxZoom={2.5}
     defaultEdgeOptions={{
