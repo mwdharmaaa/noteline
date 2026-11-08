@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useReactFlow } from "@xyflow/react";
+import { useCanvasSettingsStore } from "@/features/settings/store/canvasSettingsStore";
+
 const CanvasWheelController = () => {
   const { getViewport, setViewport } = useReactFlow();
   useEffect(() => {
@@ -16,14 +18,28 @@ const CanvasWheelController = () => {
       e.preventDefault();
       e.stopPropagation();
       const viewport = getViewport();
-      if (e.ctrlKey || e.metaKey || e.altKey) {
+      const {
+        scrollSpeed,
+        invertScroll,
+        wheelZoomSpeed,
+        trackpadPinchSpeed,
+        invertZoom,
+        wheelMode
+      } = useCanvasSettingsStore.getState().settings;
+
+      const isZoomGesture = wheelMode === "zoom"
+        ? !e.shiftKey
+        : (e.ctrlKey || e.metaKey || e.altKey);
+
+      if (isZoomGesture) {
         const rawDelta = e.deltaMode === 1 ? e.deltaY * 18 : e.deltaMode === 2 ? e.deltaY * 50 : e.deltaY;
         const isDiscreteWheel = Math.abs(rawDelta) >= 80;
-        const PINCH_VELOCITY = 0.12;
-        const DISCRETE_STEP = 0.85;
-        const normalizedDelta = isDiscreteWheel
-          ? Math.sign(rawDelta) * DISCRETE_STEP
-          : Math.sign(rawDelta) * Math.min(Math.abs(rawDelta) * PINCH_VELOCITY, 1.25);
+        const basePinchVelocity = 0.12 * trackpadPinchSpeed;
+        const baseDiscreteStep = 0.85 * wheelZoomSpeed;
+        const stepDelta = isDiscreteWheel
+          ? Math.sign(rawDelta) * baseDiscreteStep
+          : Math.sign(rawDelta) * Math.min(Math.abs(rawDelta) * basePinchVelocity, 1.25);
+        const normalizedDelta = invertZoom ? -stepDelta : stepDelta;
         const factor = Math.exp(-normalizedDelta);
         const nextZoom = Math.min(Math.max(viewport.zoom * factor, 0.15), 2.5);
 
@@ -40,17 +56,17 @@ const CanvasWheelController = () => {
         setViewport({ x: newX, y: newY, zoom: nextZoom });
         return;
       }
-      const SCROLL_SPEED = 1.5;
+      const effectiveScrollSpeed = scrollSpeed * (invertScroll ? -1 : 1);
       let dx = 0;
       let dy = 0;
       if (Math.abs(e.deltaX) > 0) {
-        dx = -e.deltaX * SCROLL_SPEED;
-        dy = -e.deltaY * SCROLL_SPEED;
+        dx = -e.deltaX * effectiveScrollSpeed;
+        dy = -e.deltaY * effectiveScrollSpeed;
       } else {
         if (e.shiftKey) {
-          dx = -e.deltaY * SCROLL_SPEED;
+          dx = -e.deltaY * effectiveScrollSpeed;
         } else {
-          dy = -e.deltaY * SCROLL_SPEED;
+          dy = -e.deltaY * effectiveScrollSpeed;
         }
       }
       setViewport({
@@ -86,13 +102,14 @@ const CanvasWheelController = () => {
         e.preventDefault();
         e.stopPropagation();
 
+        const { touchPinchExponent, invertZoom } = useCanvasSettingsStore.getState().settings;
         const t1 = e.touches[0];
         const t2 = e.touches[1];
         const currentDist = Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
-        const ratio = currentDist / touchPinch.dist;
+        const baseRatio = currentDist / touchPinch.dist;
+        const ratio = invertZoom ? (1 / Math.max(baseRatio, 0.001)) : baseRatio;
 
-        const TOUCH_PINCH_EXPONENT = 2.0;
-        const factor = Math.pow(ratio, TOUCH_PINCH_EXPONENT);
+        const factor = Math.pow(ratio, touchPinchExponent);
 
         const baseVp = touchPinch.vp;
         const nextZoom = Math.min(Math.max(baseVp.zoom * factor, 0.15), 2.5);
