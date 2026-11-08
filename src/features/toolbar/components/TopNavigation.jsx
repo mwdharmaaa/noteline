@@ -6,11 +6,13 @@ import { LayoutSelector } from "./header/LayoutSelector";
 import { CanvasStatusIndicator } from "./header/CanvasStatusIndicator";
 import { CanvasActionButtons } from "./header/CanvasActionButtons";
 import { useThemeStore } from "@/features/theme/store/themeStore";
+import { useCanvasSettingsStore } from "@/features/settings/store/canvasSettingsStore";
 const TopNavigation = ({
   onOpenExport,
   onOpenShortcuts
 }) => {
   const openThemeModal = useThemeStore((s) => s.openThemeModal);
+  const openSettings = useCanvasSettingsStore((s) => s.openSettings);
   const {
     undo,
     redo,
@@ -42,6 +44,7 @@ const TopNavigation = ({
     onSearch={openSearch}
     onProjects={openProjectModal}
     onTheme={openThemeModal}
+    onSettings={openSettings}
   />
       </div>
     </header>;

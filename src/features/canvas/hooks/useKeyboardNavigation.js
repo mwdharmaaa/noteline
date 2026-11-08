@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useMindMapStore } from "@/features/canvas/store/mindMapStore";
 import { useThemeStore } from "@/features/theme/store/themeStore";
+import { useCanvasSettingsStore } from "@/features/settings/store/canvasSettingsStore";
 import { useReactFlow } from "@xyflow/react";
 function useKeyboardNavigation() {
   const { fitView, setViewport, getViewport } = useReactFlow();
@@ -33,6 +34,11 @@ function useKeyboardNavigation() {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === "t") {
         e.preventDefault();
         openThemeModal();
+        return;
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === ",") {
+        e.preventDefault();
+        useCanvasSettingsStore.getState().toggleSettings();
         return;
       }
       if ((e.ctrlKey || e.metaKey) && e.key === "0") {

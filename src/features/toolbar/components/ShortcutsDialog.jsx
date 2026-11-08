@@ -13,6 +13,7 @@ const SHORTCUTS = [
   { key: "Ctrl + 0", desc: "Reset zoom to 100%" },
   { key: "Ctrl + 9", desc: "Fit canvas to view" },
   { key: "Ctrl + Shift + T", desc: "Open theme selector" },
+  { key: "Ctrl + ,", desc: "Open navigation & zoom settings" },
   { key: "Scroll Wheel", desc: "Slide canvas up / down" },
   { key: "Shift + Scroll", desc: "Slide canvas left / right" },
   { key: "2-Finger Pinch", desc: "Zoom canvas in / out" },

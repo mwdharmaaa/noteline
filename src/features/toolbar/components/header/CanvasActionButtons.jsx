@@ -1,4 +1,4 @@
-import { Share2, Keyboard, FilePlus, RotateCcw, Search, FolderKanban, Palette } from "lucide-react";
+import { Share2, Keyboard, FilePlus, RotateCcw, Search, FolderKanban, Palette, Sliders } from "lucide-react";
 const CanvasActionButtons = ({
   onExport,
   onShortcuts,
@@ -6,7 +6,8 @@ const CanvasActionButtons = ({
   onReset,
   onSearch,
   onProjects,
-  onTheme
+  onTheme,
+  onSettings
 }) => {
   return <>
       {onSearch && <button
@@ -31,6 +32,14 @@ const CanvasActionButtons = ({
     title="Customize theme (Ctrl+Shift+T)"
   >
           <Palette className="w-4 h-4" />
+        </button>}
+
+      {onSettings && <button
+    onClick={onSettings}
+    className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 transition-colors"
+    title="Canvas & Navigation Settings (Ctrl+,)"
+  >
+          <Sliders className="w-4 h-4" />
         </button>}
 
       <button

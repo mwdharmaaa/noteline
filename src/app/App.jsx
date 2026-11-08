@@ -7,6 +7,7 @@ import { ShortcutsDialog } from "@/features/toolbar/components/ShortcutsDialog";
 import { SearchModal } from "@/features/search/components/SearchModal";
 import { ProjectListModal } from "@/features/projects/components/ProjectListModal";
 import { ThemeSelectorModal } from "@/features/theme/components/ThemeSelectorModal";
+import { CanvasSettingsModal } from "@/features/settings/components/CanvasSettingsModal";
 import { useThemeStore } from "@/features/theme/store/themeStore";
 import { useMindMapStore } from "@/features/canvas/store/mindMapStore";
 const App = () => {
@@ -48,6 +49,8 @@ const App = () => {
     isOpen={isThemeModalOpen}
     onClose={closeThemeModal}
   />
+
+      <CanvasSettingsModal />
     </main>;
 };
 var stdin_default = App;
